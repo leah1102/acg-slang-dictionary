@@ -189,8 +189,13 @@ function renderEmpty(message) {
 function exactBoost(query, entry) {
   const q = normalizeText(query);
   if (!q) return 0;
-  if (normalizeText(entry.term) === q) return 0.22;
-  if ((entry.aliases ?? []).some((alias) => normalizeText(alias) === q)) return 0.14;
+  const queryLength = q.length;
+  if (normalizeText(entry.term) === q) {
+    return queryLength <= 2 ? 0.48 : 0.3;
+  }
+  if ((entry.aliases ?? []).some((alias) => normalizeText(alias) === q)) {
+    return queryLength <= 2 ? 0.2 : 0.14;
+  }
   if ((entry.fuzzy_terms ?? []).some((term) => normalizeText(term) === q)) return 0.08;
   if (normalizeText(entry.term).startsWith(q)) return 0.04;
   return 0;
