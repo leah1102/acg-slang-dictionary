@@ -94,19 +94,11 @@ function makeHotCard(entry) {
   button.dataset.query = entry.term;
   button.title = entry.definition;
 
-  const hint = document.createElement("span");
-  hint.className = "hot-card-hint";
-  hint.textContent = "推荐你问问";
-
   const title = document.createElement("strong");
   title.className = "hot-card-title";
   title.textContent = entry.term;
 
-  const meta = document.createElement("span");
-  meta.className = "hot-card-meta";
-  meta.textContent = "点一下快速搜索";
-
-  button.append(hint, title, meta);
+  button.append(title);
   return button;
 }
 
@@ -163,7 +155,7 @@ function renderFeaturedEntry() {
 function renderHotTerms() {
   const hotEntries = shuffle(
     [...state.entryMap.values()].sort((a, b) => (b.search_rank ?? 0) - (a.search_rank ?? 0)).slice(0, 40)
-  ).slice(0, 10);
+  ).slice(0, 9);
 
   dom.hotTerms.innerHTML = "";
   hotEntries.forEach((entry) => {

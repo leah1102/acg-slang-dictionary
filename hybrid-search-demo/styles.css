@@ -247,8 +247,12 @@ input {
 
 .hot-terms-list {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.hot-terms-list > * {
+  min-width: 0;
 }
 
 .hot-panel::after {
@@ -554,19 +558,19 @@ input {
 .hot-card {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
-  min-height: 104px;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  min-height: 76px;
   width: 100%;
-  padding: 14px 14px 13px;
+  padding: 10px 12px;
   border: 1px solid rgba(244, 114, 182, 0.16);
-  border-radius: 20px;
+  border-radius: 18px;
   background:
     linear-gradient(145deg, rgba(255, 249, 252, 0.98), rgba(244, 241, 255, 0.96)),
     radial-gradient(circle at top right, rgba(251, 191, 222, 0.18), transparent 38%);
   color: var(--text);
-  text-align: left;
+  text-align: center;
   cursor: pointer;
   box-shadow:
     0 10px 24px rgba(244, 114, 182, 0.08),
@@ -582,35 +586,10 @@ input {
     inset 0 1px 0 rgba(255, 255, 255, 0.98);
 }
 
-.hot-card-hint {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 9px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  color: #c05b95;
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.hot-card-hint::before {
-  content: "✦";
-  color: var(--accent);
-  font-size: 10px;
-}
-
 .hot-card-title {
-  font-size: 17px;
-  line-height: 1.25;
+  font-size: 15px;
+  line-height: 1.2;
   color: #7b336f;
-}
-
-.hot-card-meta {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.4;
 }
 
 .hero-side {
@@ -1161,7 +1140,7 @@ mark {
 
 @media (max-width: 1100px) {
   .hot-terms-list {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -1178,13 +1157,13 @@ mark {
   }
 
   .hot-terms-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 520px) {
   .hot-terms-list {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
