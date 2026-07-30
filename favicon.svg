@@ -1,0 +1,23 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="128" height="128" rx="32" fill="url(#bg)"/>
+  <rect x="24" y="28" width="80" height="72" rx="18" fill="white" fill-opacity="0.92"/>
+  <path d="M42 46C42 42.6863 44.6863 40 48 40H80C83.3137 40 86 42.6863 86 46V84C86 85.1046 85.1046 86 84 86H48C44.6863 86 42 83.3137 42 80V46Z" fill="url(#card)"/>
+  <path d="M50 49H78" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  <path d="M50 59H73" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.95"/>
+  <path d="M50 69H68" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+  <path d="M92.5 33.5L95.2 39.3L101 42L95.2 44.7L92.5 50.5L89.8 44.7L84 42L89.8 39.3L92.5 33.5Z" fill="#FFF7B8"/>
+  <path d="M34 76C39.5228 76 44 71.5228 44 66C44 60.4772 39.5228 56 34 56C28.4772 56 24 60.4772 24 66C24 71.5228 28.4772 76 34 76Z" fill="#FDE2F2"/>
+  <path d="M34 60.5C35.4354 58.3698 38.5 58.5725 39.6008 60.9436C40.1458 62.1173 40.0293 63.5565 39.1561 64.6203L34 70L28.8439 64.6203C27.9707 63.5565 27.8542 62.1173 28.3992 60.9436C29.5 58.5725 32.5646 58.3698 34 60.5Z" fill="#F472B6"/>
+  <defs>
+    <linearGradient id="bg" x1="16" y1="10" x2="112" y2="118" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FBCFE8"/>
+      <stop offset="0.5" stop-color="#F9A8D4"/>
+      <stop offset="1" stop-color="#C4B5FD"/>
+    </linearGradient>
+    <linearGradient id="card" x1="45" y1="42" x2="86" y2="86" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FB7185"/>
+      <stop offset="0.55" stop-color="#F472B6"/>
+      <stop offset="1" stop-color="#A78BFA"/>
+    </linearGradient>
+  </defs>
+</svg>
