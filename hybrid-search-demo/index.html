@@ -73,11 +73,17 @@
       </header>
 
       <section class="card hot-panel">
-        <div class="side-head">
-          <h2>热门词条</h2>
-          <button id="refresh-hot" class="text-btn" type="button">换一组</button>
+        <div class="hot-panel-head">
+          <div>
+            <p class="meta-label">推荐你问问</p>
+            <h2>试试这些词</h2>
+          </div>
+          <button id="refresh-hot" class="hot-refresh-btn" type="button" aria-label="换一组推荐词">
+            <span class="hot-refresh-icon" aria-hidden="true">↻</span>
+            <span>换一组</span>
+          </button>
         </div>
-        <div id="hot-terms" class="chip-list"></div>
+        <div id="hot-terms" class="chip-list hot-terms-list"></div>
       </section>
 
       <main class="content-grid content-grid-single">

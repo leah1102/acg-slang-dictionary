@@ -15,6 +15,8 @@ const state = {
   featuredEntry: null
 };
 
+let hotRefreshTimer = null;
+
 const dom = {
   form: document.querySelector("#search-form"),
   queryInput: document.querySelector("#query-input"),
@@ -85,6 +87,29 @@ function makeChip(query, className = "chip") {
   return button;
 }
 
+function makeHotCard(entry) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "hot-card";
+  button.dataset.query = entry.term;
+  button.title = entry.definition;
+
+  const hint = document.createElement("span");
+  hint.className = "hot-card-hint";
+  hint.textContent = "推荐你问问";
+
+  const title = document.createElement("strong");
+  title.className = "hot-card-title";
+  title.textContent = entry.term;
+
+  const meta = document.createElement("span");
+  meta.className = "hot-card-meta";
+  meta.textContent = "点一下快速搜索";
+
+  button.append(hint, title, meta);
+  return button;
+}
+
 function getEntryByTerm(term) {
   return [...state.entryMap.values()].find((entry) => entry.term === term);
 }
@@ -142,9 +167,7 @@ function renderHotTerms() {
 
   dom.hotTerms.innerHTML = "";
   hotEntries.forEach((entry) => {
-    const chip = makeChip(entry.term);
-    chip.title = entry.definition;
-    dom.hotTerms.appendChild(chip);
+    dom.hotTerms.appendChild(makeHotCard(entry));
   });
 }
 
@@ -514,6 +537,13 @@ function bindEvents() {
   });
 
   dom.refreshHot.addEventListener("click", () => {
+    dom.refreshHot.classList.remove("is-spinning");
+    void dom.refreshHot.offsetWidth;
+    dom.refreshHot.classList.add("is-spinning");
+    window.clearTimeout(hotRefreshTimer);
+    hotRefreshTimer = window.setTimeout(() => {
+      dom.refreshHot.classList.remove("is-spinning");
+    }, 520);
     renderHotTerms();
   });
 
