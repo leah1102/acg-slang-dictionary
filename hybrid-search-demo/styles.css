@@ -125,7 +125,8 @@ input {
     linear-gradient(135deg, rgba(255, 255, 255, 0.84), rgba(255, 242, 249, 0.96)),
     radial-gradient(circle at top right, rgba(196, 181, 253, 0.24), transparent 28%);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  z-index: 3;
 }
 
 .hero::after {
@@ -184,6 +185,7 @@ input {
 
 .history-dropdown {
   position: relative;
+  z-index: 20;
 }
 
 .history-dropdown summary {
@@ -208,7 +210,7 @@ input {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  z-index: 8;
+  z-index: 50;
   width: min(320px, 76vw);
   padding: 14px;
   border: 1px solid rgba(244, 114, 182, 0.2);
@@ -227,6 +229,8 @@ input {
     linear-gradient(135deg, rgba(255, 250, 253, 0.98), rgba(245, 241, 255, 0.92)),
     radial-gradient(circle at right top, rgba(251, 191, 222, 0.2), transparent 32%);
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
 .hot-panel::after {
