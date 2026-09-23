@@ -476,12 +476,12 @@ async function loadData() {
   const [lexiconResponse, docsResponse, indexResponse] = await Promise.all([
     fetch("../acg_slang_lexicon.zh-CN.json"),
     fetch("../fuse-search/acg_slang_search_docs.json"),
-    fetch("../fuse-search/acg_slang_fuse_index.json")
+    fetch("../fuse-search/acg_slang_fuse_index.json").catch(() => null)
   ]);
 
   const lexiconPayload = await lexiconResponse.json();
   const docs = await docsResponse.json();
-  const indexPayload = await indexResponse.json();
+  const indexPayload = indexResponse ? await indexResponse.json() : null;
   initBrowserRag(lexiconPayload);
   const metaPayload = getLexiconMeta();
 
@@ -490,8 +490,23 @@ async function loadData() {
   state.taxonomyCatalog = metaPayload.taxonomy_catalog;
   state.entryMap = new Map(lexiconPayload.entries.map((entry) => [entry.id, entry]));
 
-  const parsedIndex = Fuse.parseIndex(indexPayload.index);
-  state.fuse = new Fuse(docs, FUSE_OPTIONS, parsedIndex);
+  const indexVersion = indexPayload?.meta?.lexicon_version;
+  const indexCount = indexPayload?.meta?.entry_count;
+  const lexiconVersion = metaPayload.meta?.version;
+  const lexiconCount = metaPayload.meta?.entry_count;
+  const isIndexFresh =
+    Boolean(indexPayload?.index) &&
+    indexVersion === lexiconVersion &&
+    indexCount === docs.length &&
+    indexCount === lexiconCount;
+
+  if (isIndexFresh) {
+    const parsedIndex = Fuse.parseIndex(indexPayload.index);
+    state.fuse = new Fuse(docs, FUSE_OPTIONS, parsedIndex);
+  } else {
+    state.fuse = new Fuse(docs, FUSE_OPTIONS);
+    console.warn("Fuse 预构建索引已过期或不可用，已回退为浏览器端动态建索引。");
+  }
 
   dom.entryCount.textContent = String(metaPayload.meta.entry_count);
   dom.lexiconVersion.textContent = metaPayload.meta.version;
