@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Otakutalk 二次元黑话词典 | ACG 黑话、IP 与角色查询</title>
+    <meta
+      name="description"
+      content="Otakutalk 二次元黑话词典，支持查询 ACG 黑话、角色梗、经典 IP、地偶术语、日语空耳和圈内常用说法。"
+    />
+    <meta name="theme-color" content="#f472b6" />
+    <meta property="og:title" content="Otakutalk 二次元黑话词典" />
+    <meta
+      property="og:description"
+      content="一个可直接使用的二次元词典，支持查黑话、角色、IP、地偶术语和日语谐音词。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://leah1102.github.io/acg-slang-dictionary/hybrid-search-demo/" />
+    <meta property="og:image" content="https://leah1102.github.io/acg-slang-dictionary/favicon.svg" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Otakutalk 二次元黑话词典" />
+    <meta
+      name="twitter:description"
+      content="支持 ACG 黑话、角色、经典 IP、地偶术语与日语空耳查询的在线词典。"
+    />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero card">
+        <div class="hero-main">
+          <p class="eyebrow">Otakutalk Dictionary</p>
+          <h1>二次元黑话查询词典</h1>
+          <p class="hero-desc">
+            你的二次元速通宝典来啦～像翻词典一样，把黑话、IP翻出来。
+          </p>
+
+          <form id="search-form" class="hero-search">
+            <label class="search-input">
+              <span class="sr-only">搜索词</span>
+              <input
+                id="query-input"
+                type="search"
+                placeholder="搜索黑话、别名，或一句自然语言，比如“抽卡没出想要的叫什么”"
+                autocomplete="off"
+              />
+            </label>
+            <div class="search-actions">
+              <button type="submit" class="primary-btn">立即查询</button>
+              <details id="recent-dropdown" class="history-dropdown">
+                <summary class="secondary-btn dropdown-trigger">最近搜索</summary>
+                <div class="history-dropdown-panel">
+                  <div class="history-dropdown-head">
+                    <span class="meta-label">最近搜索</span>
+                    <button id="clear-history" class="text-btn" type="button">清空</button>
+                  </div>
+                  <div id="recent-searches" class="dropdown-history-list"></div>
+                </div>
+              </details>
+            </div>
+          </form>
+        </div>
+
+        <div class="hero-side">
+          <section class="word-card">
+            <p class="meta-label">今日心动词条</p>
+            <h2 id="featured-term">加载中</h2>
+            <p id="featured-definition" class="word-card-desc">正在准备词条简介。</p>
+            <button id="featured-action" class="secondary-btn" type="button">查看词条</button>
+          </section>
+        </div>
+      </header>
+
+      <section class="card hot-panel">
+        <div class="hot-panel-head">
+          <div>
+            <p class="meta-label">推荐你问问</p>
+            <h2>试试这些词</h2>
+          </div>
+          <button id="refresh-hot" class="hot-refresh-btn" type="button" aria-label="换一组推荐词">
+            <span class="hot-refresh-icon" aria-hidden="true">↻</span>
+            <span>换一组</span>
+          </button>
+        </div>
+        <div id="hot-terms" class="hot-terms-list"></div>
+      </section>
+
+      <main class="content-grid content-grid-single">
+        <section class="main-column">
+          <section class="card result-panel">
+            <div class="panel-head">
+              <div>
+                <h2>查询结果</h2>
+                <p id="result-summary">输入关键词开始搜索。</p>
+              </div>
+              <div class="legend">
+                <span class="badge badge-fuse">直接命中</span>
+                <span class="badge badge-rag">相关联想</span>
+                <span class="badge badge-hybrid">优先推荐</span>
+              </div>
+            </div>
+
+            <div id="results" class="results"></div>
+          </section>
+        </section>
+      </main>
+
+      <section class="hero-meta hero-meta-bottom card">
+        <div class="meta-item compact-meta-item">
+          <span class="meta-label">词库词条</span>
+          <strong id="entry-count">加载中</strong>
+        </div>
+        <div class="meta-item compact-meta-item">
+          <span class="meta-label">当前版本</span>
+          <strong id="lexicon-version">加载中</strong>
+        </div>
+        <div class="meta-item compact-meta-item">
+          <span class="meta-label">检索模式</span>
+          <strong>全库统一检索</strong>
+        </div>
+      </section>
+    </div>
+
+    <div id="detail-overlay" class="detail-overlay hidden" aria-hidden="true">
+      <div class="detail-backdrop" data-close-detail="true"></div>
+      <aside class="detail-drawer" role="dialog" aria-modal="true" aria-labelledby="detail-term">
+        <button id="close-detail" class="close-btn" type="button" aria-label="关闭详情">×</button>
+        <div class="detail-header">
+          <p class="meta-label">词条详情</p>
+          <h2 id="detail-term">-</h2>
+          <p id="detail-taxonomy" class="detail-taxonomy">-</p>
+        </div>
+
+        <div class="detail-body">
+          <section class="detail-section">
+            <h3>释义</h3>
+            <p id="detail-definition">-</p>
+          </section>
+
+          <section class="detail-section">
+            <h3>别名</h3>
+            <div id="detail-aliases" class="tag-list"></div>
+          </section>
+
+          <section class="detail-section">
+            <h3>使用场景</h3>
+            <p id="detail-usage">暂无</p>
+          </section>
+
+          <section class="detail-section">
+            <h3>例句</h3>
+            <ul id="detail-examples" class="detail-list"></ul>
+          </section>
+
+          <section class="detail-section">
+            <h3>相关词</h3>
+            <div id="detail-related" class="tag-list"></div>
+          </section>
+
+          <section class="detail-section">
+            <h3>词条标签</h3>
+            <div id="detail-tags" class="tag-list"></div>
+          </section>
+        </div>
+      </aside>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
