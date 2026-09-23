@@ -50,16 +50,22 @@ export async function createLexiconSearcher({
   docsUrl = "/fuse-search/acg_slang_search_docs.json",
   indexUrl = "/fuse-search/acg_slang_fuse_index.json"
 } = {}) {
-  const [docsResponse, indexResponse] = await Promise.all([fetch(docsUrl), fetch(indexUrl)]);
+  const [docsResponse, indexResponse] = await Promise.all([fetch(docsUrl), fetch(indexUrl).catch(() => null)]);
   const docsPayload = await docsResponse.json();
-  const indexPayload = await indexResponse.json();
-
-  const parsedIndex = Fuse.parseIndex(indexPayload.index);
-  const fuse = new Fuse(docsPayload, FUSE_OPTIONS, parsedIndex);
+  const indexPayload = indexResponse ? await indexResponse.json() : null;
+  const isIndexFresh =
+    Boolean(indexPayload?.index) &&
+    indexPayload?.meta?.entry_count === docsPayload.length;
+  const fuse = isIndexFresh
+    ? new Fuse(docsPayload, FUSE_OPTIONS, Fuse.parseIndex(indexPayload.index))
+    : new Fuse(docsPayload, FUSE_OPTIONS);
 
   return {
     docs: docsPayload,
-    meta: indexPayload.meta,
+    meta: indexPayload?.meta ?? {
+      lexicon_version: "dynamic",
+      entry_count: docsPayload.length
+    },
     search(query, options = {}) {
       const {
         limit = DEFAULT_SEARCH_LIMIT,
